@@ -1,16 +1,22 @@
-// Adds a right-click menu item: select text on any page → "Find an emoji for …".
+// Adds right-click menu items: select text on any page → "Find an emoji / a GIF for …".
+
+const menus = {
+  'emojimatch-selection': { mode: 'emoji', title: 'Find an emoji for “%s”' },
+  'emojimatch-gif': { mode: 'gif', title: 'Find a GIF for “%s”' },
+};
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
-    id: 'emojimatch-selection',
-    title: 'Find an emoji for “%s”',
-    contexts: ['selection'],
+  chrome.contextMenus.removeAll(() => {
+    for (const [id, { title }] of Object.entries(menus)) {
+      chrome.contextMenus.create({ id, title, contexts: ['selection'] });
+    }
   });
 });
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  if (info.menuItemId !== 'emojimatch-selection' || !info.selectionText) return;
-  await chrome.storage.session.set({ pendingMessage: info.selectionText.trim() });
+  const menu = menus[info.menuItemId];
+  if (!menu || !info.selectionText) return;
+  await chrome.storage.session.set({ pendingMessage: info.selectionText.trim(), pendingMode: menu.mode });
   try {
     // Opens the popup with the selection pre-filled (Chrome 127+).
     await chrome.action.openPopup(tab?.windowId ? { windowId: tab.windowId } : undefined);

@@ -80,7 +80,7 @@ function providerError(status, raw) {
   return 'OpenRouter could not complete the request. Try again or choose another model.';
 }
 
-async function callOpenRouter(apiKey, path, body) {
+export async function callOpenRouter(apiKey, path, body) {
   let upstream;
   let data;
   try {
@@ -116,12 +116,15 @@ function rankChoices(answer, question, limit) {
     .map(([key]) => Number(key.slice('emoji_'.length)));
 }
 
-export function validate(message, model) {
+export function validate(message, model, example = defaultModel) {
   if (!message || message.length > 1200) throw new Error('Enter a message between 1 and 1,200 characters.');
   if (!/^~?[a-z0-9][a-z0-9._-]*\/[a-z0-9][a-z0-9._:/@+-]*$/i.test(model) || model.length > 160) {
-    throw new Error('Enter an OpenRouter model ID such as ' + defaultModel + '.');
+    throw new Error('Enter an OpenRouter model ID such as ' + example + '.');
   }
 }
+
+// TypeSafe Jev models answer fixed multiple-choice questions through the decisions API.
+export const isJevModel = model => /^~?typesafe\/jev-(?:latest|\d[\w.-]*)$/i.test(model);
 
 export async function suggestEmojis(apiKey, model, rawMessage) {
   const message = rawMessage.trim();
@@ -129,7 +132,7 @@ export async function suggestEmojis(apiKey, model, rawMessage) {
   validate(message, model);
   const { emoji, choiceQuestion, catalogQuestions, systemPrompt } = await prepare();
   const state = { message };
-  if (/^~?typesafe\/jev-(?:latest|\d[\w.-]*)$/i.test(model)) {
+  if (isJevModel(model)) {
     const ask = questions => callOpenRouter(apiKey, '/api/alpha/decisions', { model, state, questions });
     const candidates = await ask(catalogQuestions);
     // Each group's probabilities are relative to that group. Re-rank the finalists together.

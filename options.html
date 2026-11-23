@@ -14,12 +14,15 @@
   p { color: #5d5174; font-size: .85rem; margin: 10px 0 0; }
   a { color: #5938a2; }
   #saved { margin: 0; font-weight: 600; color: #3d7a3a; }
+  h2 { margin: 18px 0 8px; font-size: 1rem; }
+  .note { margin: -4px 0 0; }
+  .optional { font-weight: 400; color: #5d5174; }
   @media (prefers-color-scheme: dark) {
     body { background: #211a2d; color: #ece6f8; }
     input { background: #1a1424; border-color: #4a3d61; }
     button { background: #2a2139; border-color: #3f3356; color: #dcd0f5; }
     button.primary { background: #7a52d6; border-color: #7a52d6; color: #fff; }
-    p { color: #b1a6c7; }
+    p, .optional { color: #b1a6c7; }
     a { color: #c4aefc; }
     #saved { color: #8fd08a; }
   }
@@ -29,12 +32,19 @@
 <form id="settings">
   <label for="key">OpenRouter API key</label>
   <input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="sk-or-…">
+  <p class="note">Needed for both emoji and GIF suggestions. Get one at <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>.</p>
+  <h2>GIFs</h2>
+  <label for="klipy">KLIPY API key</label>
+  <input id="klipy" type="password" autocomplete="off" spellcheck="false" placeholder="Free at partner.klipy.com">
+  <label for="giphy">GIPHY API key <span class="optional">(optional, used if there's no KLIPY key)</span></label>
+  <input id="giphy" type="password" autocomplete="off" spellcheck="false" placeholder="From developers.giphy.com">
   <div class="row">
     <button class="primary" type="submit">Save</button>
-    <button type="button" id="clear">Remove key</button>
+    <button type="button" id="clear">Remove all keys</button>
     <span id="saved" role="status"></span>
   </div>
-  <p>Get a key at <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>. It is stored only in this browser profile and sent only to openrouter.ai.</p>
+  <p>Get a free KLIPY key in the <a href="https://partner.klipy.com" target="_blank" rel="noopener">KLIPY Partner Panel</a> (API Keys → create a platform), or a GIPHY key at <a href="https://developers.giphy.com/dashboard/" target="_blank" rel="noopener">developers.giphy.com</a>. New keys of both kinds allow about 100 searches an hour, and each GIF suggestion uses about 3.</p>
+  <p>Keys are stored only in this browser profile. Each one is sent only to its own service.</p>
   <p><a href="https://openrouter.ai/models?input_modalities=text" target="_blank" rel="noopener">Find OpenRouter models</a> · <a href="UNICODE-LICENSE.txt" target="_blank">Unicode license</a></p>
 </form>
 <script src="options.js"></script>

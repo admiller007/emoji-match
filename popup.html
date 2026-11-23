@@ -11,9 +11,13 @@
     <div class="brand"><span aria-hidden="true">✨</span>Emojimatch</div>
     <button type="button" id="open-settings" class="link">Settings</button>
   </header>
+  <div class="tabs" role="tablist" aria-label="What to find">
+    <button type="button" class="tab" role="tab" data-tab="emoji" aria-selected="true">😀 Emoji</button>
+    <button type="button" class="tab" role="tab" data-tab="gif" aria-selected="false">🎞️ GIF</button>
+  </div>
   <form class="panel" id="picker">
     <label for="message">Your message</label>
-    <textarea id="message" maxlength="1200" required placeholder="Paste or type the message you want an emoji for"></textarea>
+    <textarea id="message" maxlength="1200" required placeholder="Paste or type the message you want to react to"></textarea>
     <div class="examples" aria-label="Try an example">
       <button class="example" type="button" data-message="The build finally passed after three hours of debugging.">Small victory</button>
       <button class="example" type="button" data-message="Perfect, the printer ate my document again.">Sarcasm</button>
@@ -28,18 +32,25 @@
           <option value="openai/gpt-4.1-mini">GPT-4.1 Mini</option>
           <option value="typesafe/jev-router">TypeSafe Jev Router</option>
         </datalist>
+        <datalist id="gif-models">
+          <option value="openai/gpt-4.1-mini">GPT-4.1 Mini</option>
+          <option value="google/gemini-2.5-flash">Gemini 2.5 Flash</option>
+        </datalist>
       </div>
       <button class="primary" id="submit" type="submit" disabled>Suggest emojis</button>
     </div>
-    <p class="hint">Each request sends your message and the full catalog to the selected model through OpenRouter. <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to submit.</p>
+    <p class="hint" data-mode="emoji">Each request sends your message and the full catalog to the selected model through OpenRouter. <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to submit.</p>
+    <p class="hint" data-mode="gif" hidden>The model turns your message into a few GIF searches, then your GIF service finds the GIFs. <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to submit.</p>
     <p id="setup" hidden></p>
   </form>
   <section class="results" aria-labelledby="result-title">
     <h2 id="result-title">Suggested emojis</h2>
     <p id="status" role="status">Choose Suggest emojis to see your matches.</p>
-    <div id="matches"></div>
+    <div id="matches" data-mode="emoji"></div>
+    <div id="gifs" data-mode="gif" hidden></div>
+    <p id="attribution" hidden></p>
   </section>
-  <details id="library">
+  <details id="library" data-mode="emoji">
     <summary>Explore the Unicode catalog</summary>
     <label for="search">Search the catalog</label>
     <input type="search" id="search" placeholder="Try flag, moon, or heart">
