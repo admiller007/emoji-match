@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Emojimatch settings</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px; min-width: 380px; background: #fff; color: #24183c; font: 14px/1.5 system-ui, sans-serif; }
+  label { display: block; font-weight: 700; }
+  input { display: block; width: 100%; margin: 6px 0 10px; padding: 9px 11px; border: 1px solid #c9bfdf; border-radius: 10px; font: inherit; color: inherit; background: #fcfbff; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  button { padding: 8px 13px; border-radius: 10px; font: inherit; cursor: pointer; border: 1px solid #c9bfdf; background: #faf8ff; color: #493373; }
+  button.primary { color: #fff; background: #5932ac; border-color: #5932ac; font-weight: 700; }
+  p { color: #5d5174; font-size: .85rem; margin: 10px 0 0; }
+  a { color: #5938a2; }
+  #saved { margin: 0; font-weight: 600; color: #3d7a3a; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #211a2d; color: #ece6f8; }
+    input { background: #1a1424; border-color: #4a3d61; }
+    button { background: #2a2139; border-color: #3f3356; color: #dcd0f5; }
+    button.primary { background: #7a52d6; border-color: #7a52d6; color: #fff; }
+    p { color: #b1a6c7; }
+    a { color: #c4aefc; }
+    #saved { color: #8fd08a; }
+  }
+</style>
+</head>
+<body>
+<form id="settings">
+  <label for="key">OpenRouter API key</label>
+  <input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="sk-or-…">
+  <div class="row">
+    <button class="primary" type="submit">Save</button>
+    <button type="button" id="clear">Remove key</button>
+    <span id="saved" role="status"></span>
+  </div>
+  <p>Get a key at <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>. It is stored only in this browser profile and sent only to openrouter.ai.</p>
+  <p><a href="https://openrouter.ai/models?input_modalities=text" target="_blank" rel="noopener">Find OpenRouter models</a> · <a href="UNICODE-LICENSE.txt" target="_blank">Unicode license</a></p>
+</form>
+<script src="options.js"></script>
+</body>
+</html>

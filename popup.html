@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Emojimatch</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand"><span aria-hidden="true">✨</span>Emojimatch</div>
+    <button type="button" id="open-settings" class="link">Settings</button>
+  </header>
+  <form class="panel" id="picker">
+    <label for="message">Your message</label>
+    <textarea id="message" maxlength="1200" required placeholder="Paste or type the message you want an emoji for"></textarea>
+    <div class="examples" aria-label="Try an example">
+      <button class="example" type="button" data-message="The build finally passed after three hours of debugging.">Small victory</button>
+      <button class="example" type="button" data-message="Perfect, the printer ate my document again.">Sarcasm</button>
+      <button class="example" type="button" data-message="Ya llegué a casa, gracias por cuidarme.">Spanish</button>
+    </div>
+    <div class="actions">
+      <div>
+        <label for="model">OpenRouter model ID</label>
+        <input id="model" list="models" maxlength="160" spellcheck="false" autocapitalize="off" required>
+        <datalist id="models">
+          <option value="typesafe/jev-1.14">TypeSafe Jev</option>
+          <option value="openai/gpt-4.1-mini">GPT-4.1 Mini</option>
+          <option value="typesafe/jev-router">TypeSafe Jev Router</option>
+        </datalist>
+      </div>
+      <button class="primary" id="submit" type="submit" disabled>Suggest emojis</button>
+    </div>
+    <p class="hint">Each request sends your message and the full catalog to the selected model through OpenRouter. <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to submit.</p>
+    <p id="setup" hidden></p>
+  </form>
+  <section class="results" aria-labelledby="result-title">
+    <h2 id="result-title">Suggested emojis</h2>
+    <p id="status" role="status">Choose Suggest emojis to see your matches.</p>
+    <div id="matches"></div>
+  </section>
+  <details id="library">
+    <summary>Explore the Unicode catalog</summary>
+    <label for="search">Search the catalog</label>
+    <input type="search" id="search" placeholder="Try flag, moon, or heart">
+    <p id="catalog-status" role="status"></p>
+    <div id="catalog"></div>
+    <button type="button" id="more" hidden>Show more</button>
+  </details>
+</main>
+<script src="popup.js" type="module"></script>
+</body>
+</html>
